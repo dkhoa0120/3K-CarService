@@ -15,7 +15,8 @@ function Home() {
           </h1>
           <h2 className="text-white text-xs sm:text-sm">
             We will help you to find your favorite car for your family and bring
-            comfortable to your journey!
+            comfortable to your journey! Easy to connect between car's owner and
+            customers!
           </h2>
           <div className="button">Explore More ...</div>
         </div>
