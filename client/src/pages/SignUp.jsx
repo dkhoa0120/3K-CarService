@@ -1,27 +1,49 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import * as accountApi from "../services/api.auth";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = {
-      username,
-      email,
-      password,
-    };
-    try {
-      await accountApi.SignUp(data);
-    } catch (err) {
-      console.log(err);
+    if (password !== confirmPassword) {
+      toast.error("The password is not match!");
+    } else {
+      const formData = {
+        username,
+        email,
+        password,
+      };
+      try {
+        setLoading(true);
+        const response = await fetch("/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const data = await response.json();
+        if (data.success === false) {
+          setLoading(false);
+          toast.error(data.message);
+          return;
+        }
+        setLoading(false);
+        navigate("/sign-in");
+      } catch (error) {
+        setLoading(false);
+        toast.error("Something went wrong!");
+      }
     }
   };
-
   return (
     <div>
       {" "}
@@ -62,7 +84,7 @@ function SignUp() {
           />
 
           <button className="bg-blue-500 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-            SIGN UP
+            {loading ? <h6>LOADING...</h6> : <h6>SIGN UP </h6>}
           </button>
         </form>
         <div className="flex gap-2 mt-5">

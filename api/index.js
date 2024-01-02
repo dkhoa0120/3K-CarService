@@ -16,7 +16,7 @@ mongoose
 
 const app = express();
 
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log("server is running");
 });
 
@@ -27,12 +27,10 @@ app.use("/api/auth", authRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal server error";
-  return res.status(
-    statusCode.json({
-      success: false,
-      message,
-      statusCode,
-    })
-  );
+  const message = err.message || "Internal Server Error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
 });
