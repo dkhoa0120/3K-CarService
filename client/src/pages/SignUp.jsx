@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 function SignUp() {
@@ -10,6 +10,7 @@ function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,7 +45,9 @@ function SignUp() {
       }
     }
   };
-  return (
+  return currentUser ? (
+    <Navigate to="/" />
+  ) : (
     <div>
       {" "}
       <div className="p-3 max-w-lg mx-auto">
