@@ -9,19 +9,85 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase.js";
 import { toast } from "react-toastify";
+import { Button, Modal } from "react-bootstrap";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+  deleteUserFailure,
+  deleteUserStart,
+  deleteUserSuccess,
+  signOutUserStart,
+} from "../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [avatar, setAvatar] = useState(null);
+  const [username, setUsername] = useState(currentUser.username);
+  const [email, setEmail] = useState(currentUser.email);
+  const [password, setPassword] = useState("");
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
   const inputRef = useRef();
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = {
+      ...(avatar && { avatar }),
+      username,
+      email,
+      ...(password && { password }),
+    };
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      toast.success("Update information successfully!");
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        toast.error(error);
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    try {
+      dispatch(deleteUserStart());
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+      if (data.status === false) {
+        dispatch(deleteUserFailure(data.message));
+        toast.error(error);
+        return;
+      }
+      dispatch(deleteUserSuccess(data));
+      setShow(false);
+      navigate("/");
+    } catch (error) {
+      dispatch(deleteUserFailure(error.message));
+      console.log(error);
+    }
+  };
 
   const handleChooseImg = () => {
     inputRef.current.click();
   };
-
-  console.log(avatar);
 
   useEffect(() => {
     if (file) {
@@ -53,10 +119,10 @@ function Profile() {
     );
   };
 
-  return currentUser ? (
+  return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           onChange={(e) => setFile(e.target.files[0])}
           type="file"
@@ -82,7 +148,8 @@ function Profile() {
         <input
           type="text"
           placeholder="username"
-          defaultValue={currentUser.username}
+          defaultValue={username}
+          onChange={(e) => setUsername(e.target.value)}
           id="username"
           className="border p-3 rounded-lg"
         />
@@ -90,28 +157,38 @@ function Profile() {
           type="email"
           placeholder="email"
           id="email"
-          defaultValue={currentUser.email}
+          defaultValue={email}
+          onChange={(e) => setEmail(e.target.value)}
           className="border p-3 rounded-lg"
         />
         <input
           type="password"
           placeholder="password"
           id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           className="border p-3 rounded-lg"
         />
         <button className="bg-slate-700 text-white rounded-lg p-3 uppercase hover:opacity-95 disabled:opacity-80">
-          Update
+          {loading ? "Loading ..." : "Update"}
         </button>
       </form>
-      <div className="flex justify-between mt-5">
+
+      <div className="flex justify-between mt-5" onClick={() => setShow(true)}>
         <span className="text-red-700 cursor-pointer">Delete account</span>
       </div>
-    </div>
-  ) : (
-    <div className="p-3 max-w-lg mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
-        You are not login, please login to access this feature !
-      </h1>
+
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>DELETE USER</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do You Want To Delete Your Account?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={handleDeleteUser}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 }

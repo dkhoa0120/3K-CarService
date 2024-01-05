@@ -30,7 +30,7 @@ function NavBar() {
   const handleSignOut = async () => {
     try {
       dispatch(signOutUserStart());
-      const res = await fetch("api/auth/signout", {
+      const res = await fetch("/api/auth/signout", {
         method: "POST",
       });
 
@@ -82,11 +82,33 @@ function NavBar() {
             </Nav>
             <hr />
             <Nav>
+              <Dropdown>
+                <Dropdown.Toggle
+                  id="dropdown-button-dark-example1"
+                  variant="secondary"
+                  ref={dropDownRef}
+                  style={{ display: "none" }}
+                >
+                  Dropdown Button
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  <Dropdown.Item onClick={() => navigate("/profile")}>
+                    Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => navigate("/list")}>
+                    Manage List
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={handleSignOut}>
+                    Sign Out
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
               {currentUser ? (
                 <div onClick={handleClick} style={{ cursor: "pointer" }}>
                   <img
                     alt="avatar"
-                    className="rounded-full h-12 w-12 object-cover"
+                    className="rounded-full h-10 w-10 object-cover"
                     src={currentUser.avatar}
                   />
                 </div>
@@ -102,23 +124,6 @@ function NavBar() {
                   </Link>
                 </>
               )}
-              <Dropdown>
-                <Dropdown.Toggle
-                  id="dropdown-button-dark-example1"
-                  variant="secondary"
-                  ref={dropDownRef}
-                  style={{ display: "none" }}
-                >
-                  Dropdown Button
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item onClick={() => navigate("/profile")}>
-                    Edit
-                  </Dropdown.Item>
-                  <Dropdown.Item onClick={handleSignOut}>Log Out</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
             </Nav>
           </Navbar.Collapse>
         </Container>
