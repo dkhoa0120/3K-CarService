@@ -116,12 +116,12 @@ export default function ListingDetail() {
                         : "text-xl font-semibold"
                     }
                   >
-                    {listing?.regularPrice} ${" "}
+                    {listing?.regularPrice.toLocaleString("en-US")} ${" "}
                     {listing?.type === "Rent" && "/ day"}
                   </p>
                   {listing?.discountPrice > 0 && (
                     <p className="text-xl font-semibold text-red-500">
-                      {listing?.discountPrice} $
+                      {listing?.discountPrice.toLocaleString("en-US")} $
                     </p>
                   )}
                 </div>

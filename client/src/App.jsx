@@ -12,6 +12,7 @@ import Listing from "./pages/Listing.jsx";
 import CreateListing from "./pages/CreateListing.jsx";
 import ListingDetail from "./pages/ListingDetail.jsx";
 import UpdateListing from "./pages/UpdateListing.jsx";
+import Search from "./pages/Search.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route element={<Home />} path="/" />
         <Route element={<SignIn />} path="/sign-in" />
         <Route element={<SignUp />} path="/sign-up" />
+        <Route element={<Search />} path="/search" />
         <Route element={<PrivateRoute />}>
           <Route element={<Profile />} path="/profile" />
           <Route element={<Listing />} path="/list" />

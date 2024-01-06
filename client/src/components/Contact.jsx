@@ -15,7 +15,6 @@ export default function Contact({ listing }) {
         <div className="flex flex-col gap-2">
           <p>
             Contact{" "}
-            <span className="font-semibold">{currentUser.username}</span> for{" "}
             <span className="font-semibold">
               {listing.name.toLowerCase()} owner
             </span>

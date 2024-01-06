@@ -360,9 +360,9 @@ export default function CreateListing() {
               required
               onChange={setPhone}
             />
-            <p className="font-semibold">
+            <p className="font-semibold text-red-600">
               Phone Number:
-              <span className="font-normal text-gray-600 ml-2">
+              <span className="font-normal">
                 You will can not change your phone number later
               </span>
             </p>
@@ -387,9 +387,9 @@ export default function CreateListing() {
                 )}
               </button>
             </div>
-            <p className="font-semibold">
+            <p className="font-semibold text-red-600">
               Images:
-              <span className="font-normal text-gray-600 ml-2">
+              <span className="font-normal ">
                 The first image will be the cover (max 6)
               </span>
             </p>

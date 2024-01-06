@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Container,
@@ -22,6 +22,28 @@ function NavBar() {
   const navigate = useNavigate();
 
   const dropDownRef = useRef();
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const urlParams = new URLSearchParams(window.location.search);
+    urlParams.set("searchTerm", searchTerm);
+    const searchQuery = urlParams.toString();
+    navigate(`/search?${searchQuery}`);
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const searchTermFromUrl = urlParams.get("searchTerm");
+    if (searchTermFromUrl) {
+      setSearchTerm(searchTermFromUrl);
+    }
+  }, [location.search]);
+
+  let ws = window.location.search;
+
+  console.log(ws);
 
   const handleClick = () => {
     dropDownRef.current.click();
@@ -70,14 +92,18 @@ function NavBar() {
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
               {" "}
-              <Form className="d-flex">
+              <Form className="d-flex" onSubmit={handleSubmit}>
                 <Form.Control
                   type="search"
                   placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="me-2"
                   aria-label="Search"
                 />
-                <Button variant="outline-dark">Search</Button>
+                <Button variant="outline-dark" onClick={handleSubmit}>
+                  Search
+                </Button>
               </Form>
             </Nav>
             <hr />
