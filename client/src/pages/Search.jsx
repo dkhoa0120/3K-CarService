@@ -70,6 +70,7 @@ export default function Search() {
     const urlParams = new URLSearchParams();
     urlParams.set("type", type);
     urlParams.set("fuel", fuel);
+    urlParams.set("transmission", transmission);
     urlParams.set("insurance", insurance);
     urlParams.set("offer", offer);
     urlParams.set("sort", sort);
