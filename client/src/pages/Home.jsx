@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
 import Item from "../components/Item";
+import { Button } from "react-bootstrap";
 function Home() {
   const [offerLists, setOfferLists] = useState([]);
   const [rentLists, setRentLists] = useState([]);
@@ -76,11 +77,8 @@ function Home() {
               ))}
             </div>
             <div className="flex justify-end p-3">
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?offer=true"}
-              >
-                Show more offers
+              <Link to={"/search?offer=true"}>
+                <Button>Show more</Button>
               </Link>
             </div>
           </div>
@@ -98,11 +96,8 @@ function Home() {
               ))}
             </div>
             <div className="flex justify-end p-3">
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=Rent"}
-              >
-                Show more cars for rent
+              <Link to={"/search?type=Rent"}>
+                <Button>Show more</Button>
               </Link>
             </div>
           </div>
@@ -120,11 +115,8 @@ function Home() {
               ))}
             </div>
             <div className="flex justify-end p-3">
-              <Link
-                className="text-sm text-blue-800 hover:underline"
-                to={"/search?type=sale"}
-              >
-                Show more cars for sell
+              <Link to={"/search?type=Sell"}>
+                <Button>Show more</Button>
               </Link>
             </div>
           </div>
