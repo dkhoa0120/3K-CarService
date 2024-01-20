@@ -8,8 +8,6 @@ function Home() {
   const [rentLists, setRentLists] = useState([]);
   const [sellLists, setSellLists] = useState([]);
 
-  console.log(offerLists);
-
   useEffect(() => {
     const fetchOffer = async () => {
       const res = await fetch("/api/listing/get?offer=true&limit=3", {
@@ -59,7 +57,8 @@ function Home() {
           </Link>
         </div>
       </div>
-      <div className="flex justify-center items-center my-5">
+
+      <div className="flex justify-center items-center my-5 text-blue-900">
         <h1 className="font-bold">Car You May Like</h1>
       </div>
 
@@ -106,7 +105,7 @@ function Home() {
           <div className="">
             <div className="my-3">
               <h2 className="text-2xl font-semibold text-slate-600">
-                Recent Cars for sell
+                Recent cars for sell
               </h2>
             </div>
             <div className="flex flex-wrap gap-4">
@@ -122,6 +121,50 @@ function Home() {
           </div>
         )}
       </div>
+      <div className="flex justify-center items-center my-5 text-blue-900">
+        <h1 className="font-bold">Explore Top Trend</h1>
+      </div>
+      <div className="max-w-6xl mx-auto p-4 grid md:grid-cols-3 gap-4 my-10">
+        <div className="bg-[url(/img/Electric.jpg)] bg-cover h-[300px] w-[330px] relative">
+          <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full">
+            <h1 className="text-white font-semibold text-4xl cursor-pointer">
+              Electric Car
+            </h1>
+            <p className="text-gray-200">
+              An electric car or electric vehicle (EV) is a passenger automobile
+              that is propelled by an electric traction motor.
+            </p>
+          </div>
+        </div>
+        <div className="col-span-2 ">
+          <h3 className="font-bold">Do You Know What?</h3>
+          <p className="text-slate-700 font-semibold">
+            🌿 Drive Towards a Greener Tomorrow:{" "}
+          </p>{" "}
+          <p>
+            Make a powerful impact on the environment by choosing the
+            eco-friendly option. Our electric car is powered by clean energy,
+            reducing your carbon footprint and contributing to a healthier
+            planet.
+          </p>
+          <p className="text-slate-700 font-semibold">
+            {" "}
+            ⚡ Unleash the Power of Efficiency:
+          </p>
+          <p>
+            Experience a new level of efficiency with instant torque and smooth
+            acceleration. Our cutting-edge electric technology not only provides
+            a thrilling driving experience but also ensures you reach your
+            destination faster and smarter.
+          </p>
+          <div className="flex justify-end pr-3">
+            <Link to={"/search?fuel=Electric"}>
+              <Button variant="success">Explore</Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
       <div className="py-20 px-4 max-w-6xl mx-auto">
         <h1 className="text-3xl font-bold mb-4 text-slate-800">
           Why Choosing Us

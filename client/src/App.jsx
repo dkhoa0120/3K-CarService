@@ -13,6 +13,7 @@ import CreateListing from "./pages/CreateListing.jsx";
 import ListingDetail from "./pages/ListingDetail.jsx";
 import UpdateListing from "./pages/UpdateListing.jsx";
 import Search from "./pages/Search.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         </Route>
         <Route element={<ListingDetail />} path="/list-detail/:id" />
       </Routes>
+      <Footer />
     </>
   );
 }
