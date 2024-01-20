@@ -2,7 +2,6 @@ import React from "react";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagram } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
 import { FaDribbble } from "react-icons/fa";
 export default function Footer() {
   return (
@@ -50,9 +49,6 @@ export default function Footer() {
             </a>
             <a className="text-gray-400 hover:text-gray-500 text-2xl">
               <FaSquareXTwitter />
-            </a>
-            <a className="text-gray-400 hover:text-gray-500 text-2xl">
-              <FaGithub />
             </a>
             <a className="text-gray-400 hover:text-gray-500 text-2xl">
               <FaDribbble />

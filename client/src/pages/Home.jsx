@@ -125,7 +125,7 @@ function Home() {
         <h1 className="font-bold">Explore Top Trend</h1>
       </div>
       <div className="max-w-6xl mx-auto p-4 grid md:grid-cols-3 gap-4 my-10">
-        <div className="bg-[url(/img/Electric.jpg)] bg-cover h-[300px] w-[330px] relative">
+        <div className="bg-[url(/img/Electric.jpg)] bg-cover h-[300px] w-[326px] relative">
           <div className="absolute bottom-0 px-4 py-3 bg-gray-500/50 w-full">
             <h1 className="text-white font-semibold text-4xl cursor-pointer">
               Electric Car
@@ -157,7 +157,7 @@ function Home() {
             a thrilling driving experience but also ensures you reach your
             destination faster and smarter.
           </p>
-          <div className="flex justify-end pr-3">
+          <div className="flex justify-end pr-6">
             <Link to={"/search?fuel=Electric"}>
               <Button variant="success">Explore</Button>
             </Link>
