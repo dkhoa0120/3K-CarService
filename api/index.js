@@ -8,10 +8,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 dotenv.config();
 
-import cors from 'cors';
-
-
-
+import cors from "cors";
 
 mongoose
   .connect(process.env.MongoURL)
@@ -29,12 +26,18 @@ app.listen(3000, () => {
   console.log("server is running");
 });
 
-app.use(cors({
-  origin: 'http://localhost:5173', // frontend
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type','x-hub-partnership-id','x-partnership-id'],
-  credentials: true, // nếu dùng cookie
-}));
+app.use(
+  cors({
+    origin: "http://localhost:3001", // frontend
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "x-hub-partnership-id",
+      "x-partnership-id",
+    ],
+    credentials: true, // nếu dùng cookie
+  })
+);
 
 app.use(express.json());
 
@@ -49,9 +52,6 @@ app.use(express.static(path.join(__dirname, "/client/dist")));
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
 });
-
-
-
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
