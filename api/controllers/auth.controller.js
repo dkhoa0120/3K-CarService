@@ -59,11 +59,23 @@ export const signIn = async (req, res, next) => {
       });
     }
 
-    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
+    const accessToken = jwt.sign(
+      { id: validUser._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: validUser._id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: "7d" }
+    );
+
     res.status(200).json({
       success: true,
-      token,
+      accessToken,
+      refreshToken,
     });
   } catch (error) {
     next(error);

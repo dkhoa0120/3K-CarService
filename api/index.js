@@ -28,14 +28,13 @@ app.listen(3000, () => {
 
 app.use(
   cors({
-    origin: "http://localhost:3001", // frontend
+    origin: "http://localhost:3001",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
-      "x-hub-partnership-id",
+      "Authorization", // ✅ BẮT BUỘC
       "x-partnership-id",
     ],
-    credentials: true, // nếu dùng cookie
   })
 );
 
