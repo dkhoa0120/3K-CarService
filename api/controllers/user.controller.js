@@ -93,3 +93,16 @@ export const getUserListings = async (req, res, next) => {
     });
   }
 };
+
+export const testApi = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId).select("-password");
+
+    return res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

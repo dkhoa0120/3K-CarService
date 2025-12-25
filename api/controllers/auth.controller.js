@@ -63,7 +63,7 @@ export const signIn = async (req, res, next) => {
     const accessToken = jwt.sign(
       { id: validUser._id },
       process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "2m" }
     );
 
     const refreshToken = jwt.sign(
@@ -90,5 +90,45 @@ export const signOut = async (req, res, next) => {
     res.status(200).json("User has been logged out!");
   } catch (error) {
     next(error);
+  }
+};
+
+export const refreshToken = async (req, res, next) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Refresh token is required",
+    });
+  }
+
+  try {
+    // Verify refresh token
+    const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+
+    // (Optional) check user còn tồn tại không
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // Tạo access token mới
+    const newAccessToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "2m",
+    });
+
+    return res.status(200).json({
+      success: true,
+      accessToken: newAccessToken,
+    });
+  } catch (error) {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired refresh token",
+    });
   }
 };
